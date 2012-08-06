@@ -1,0 +1,82 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="/static/css/base.css" />
+    <link rel="stylesheet" href="/static/css/redmond/jquery-ui-1.8.16.custom.css" />
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    <script type='text/javascript' src='/static/js/date.js'></script>
+    <script type='text/javascript' src='/static/js/jquery-1.7.1.min.js'></script>
+    <script type='text/javascript' src='/static/js/jquery-ui-1.8.16.custom.min.js'></script>
+    <script type='text/javascript' src='/static/js/jquery.history.js'></script>
+    <script type='text/javascript' src='/static/js/jquery.form.js'></script>
+    <script type='text/javascript' src='/static/js/jquery.timers.js'></script>
+    <script type='text/javascript' src='/static/js/underscore-min.js'></script>
+    <script type='text/javascript' src='/static/js/gviz-wrapper.js'></script>
+    <script type='text/javascript' src='/static/js/dashboard.js'></script>
+    <title>{% block title %}WebAnalytics{% endblock %}</title>
+    <script type='text/javascript' >
+
+     {% if view_id %}
+      var viewId = '{{ view_id }}';
+      $(document).ready(function(){
+          $("#tablinks li#{{ view_id }}").find("a").addClass("selected");
+      });
+     {% endif %}
+     $(document).ready(function(){ historyInit();});
+    </script>
+</head>
+
+<body>
+
+<div id="wrapper">
+<!--
+		<div id="header">	
+ 			<h1><img src="/static/css/logo.gif" alt="TravelGo.com" /></h1>
+			 <h2><img src="/static/css/getting-you-there.gif" alt="Getting you there since 1972" /></h2>
+		
+			<div class="headerlinks"> 
+				<a href="/accounts/login/">Login</a> 
+			</div>
+		</div> -->
+				
+		<div id="tablinks" class="clearfix">
+			<ul>
+				<li id="home"  ><a href="/analytics/home/">{% trans "Home" %}</a></li>
+				<!-- <li id="settings"  ><a href="/settings/">{% trans "Settings" %}</a></li> -->
+				<!-- <li id="about" ><a href="/about/">{% trans "About" %}</a></li>	 -->
+			</ul>
+			<div class="headerlinks"> 
+			  <!-- {% if user %} 
+				<a href="/accounts/account/" id="login-status">{{ user }}</a> | 
+				<a id="logout-link" href="/accounts/logout/">Logout</a> 
+			   {% else %}
+				<a href="/accounts/login/" id="login-link">Login</a> | 
+				<a id="logout-link" href="/accounts/logout/" style="visibility: hidden;">Logout</a> 				
+			    {% endif %} -->
+			</div>		
+		</div>
+		<div id="breadcrumb">You are here:
+		  {% block breadcrumb %}
+		  <!-- <a href="/customers/">Customers</a> --
+		    -- &gt; <a href="/add-customer/">Add Customer</a> -->
+		  {% endblock breadcrumb %}
+		</div>
+		<div id="content-wrapper">		
+			<div id="content-inner" style="height: 1000px;"> {% block content %}{% endblock %}</div> 
+		</div>
+		
+		<div id="footer">
+			<address>
+				<a href="mailto:info@example.com"	style=" font-weight: bold; color: black;">&copy; Legal Notice </a>
+			</address>
+		</div>
+</div>
+<script type="text/javascript">
+var __webanalytics_account = 'adsbb3j388909d0d';
+(function() {var wa = document.createElement('script'); wa.type = 'text/javascript'; wa.async = true; wa.src = document.location.protocol+'//webanalytics-747.rhcloud.com/static/js/webanalytics.js'; var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(wa, s);})();
+</script>
+</body>
+</html>
+

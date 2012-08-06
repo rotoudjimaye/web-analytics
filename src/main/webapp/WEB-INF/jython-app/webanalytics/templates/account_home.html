@@ -1,0 +1,39 @@
+{% extends "decorator.html" %}
+
+{% block title %} Home {% endblock title %}
+
+{% block breadcrumb %}
+<a href="/home/">Home</a>
+{% endblock breadcrumb %}
+
+{% block content %} 
+<div id="dashboard-wrapper"  style="position: relative;">
+  
+  <div class="dashboard-navigation module" style="position: absolute; top: 0; left: 0; height: 998px;" >
+    <h2>My Domains</h2>
+    <ul class="my-domains">
+      {% for ad in domains %}
+      <li><a href="#/switch/?domain={{ad.domain}}">{{ ad.domain }}</a></li>
+      {% endfor %}
+    </ul>
+
+
+    <h2>Analysis</h2>
+    <ul class="data-analysis">
+      <li  class="selected"><a href="#/switch/?a=basic">Basic</a></li>
+      <li><a href="#/switch/?a=entry-exit">Entry/Exit pages</a></li>
+      <li><a href="#/switch/?a=geolocation">Geo-location</a></li>
+    </ul>
+    
+    <h2>Data Frequency</h2>
+    <ul class="data-frequency-holder">
+    </ul>
+
+  </div>		
+  
+  <div id="dashboard-content-area" class="dashboard-inner" style="width: 850px; position: absolute; top: 0; left: 150px;" >    
+
+    
+  </div>
+</div>
+{% endblock content %}

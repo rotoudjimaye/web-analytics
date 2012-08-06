@@ -1,0 +1,40 @@
+<web-app>
+
+    <filter>
+        <filter-name>forcedUtf8</filter-name>
+        <filter-class>org.rt.modjy.servlet.ForcedUtf8Filter</filter-class>
+    </filter>
+
+    <filter-mapping>
+        <filter-name>forcedUtf8</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
+    <servlet>
+        <servlet-name>modjy</servlet-name>
+        <servlet-class>org.rt.modjy.servlet.ModjyServlet</servlet-class>
+        <init-param>
+            <param-name>app_import_name</param-name>
+            <param-value>wsgi.handler</param-value>
+        </init-param>
+        <init-param>
+            <param-name>reload_on_mod</param-name>
+            <param-value>1</param-value>
+        </init-param>
+        <init-param>
+            <param-name>log_level</param-name>
+            <param-value>info</param-value>
+        </init-param>
+        <init-param>
+            <param-name>load_site_packages</param-name>
+            <param-value>0</param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>modjy</servlet-name>
+        <url-pattern>/*</url-pattern>
+    </servlet-mapping>
+
+</web-app>

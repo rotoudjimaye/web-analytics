@@ -1,0 +1,11 @@
+django==1.4
+django-tastypie
+#django-jython
+pytz
+#requests
+simplejson
+mysql-python
+
+
+
+

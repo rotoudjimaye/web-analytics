@@ -1,0 +1,46 @@
+{% extends "decorator.html" %}
+
+{% block title %} Home {% endblock title %}
+
+{% block breadcrumb %}
+<a href="/home/">Home</a>
+{% endblock breadcrumb %}
+
+{% block content %} 
+<div id="dashboard-wrapper"  style="position: relative;">
+  
+  <div class="dashboard-navigation" >
+    <div class="inner">
+      <div class="navig-items">				
+	<div class="item"><div class="label">Synthèse</div><a  href="#stats-weekly" style="display:none;">&nbsp;</a></div>
+	<div class="item"><div class="label">Abonnés</div><a   href="#subscriber-stats-weekly" style="display:none;">&nbsp;</a></div>
+	<div class="item"><div class="label">Recharges</div><a href="#refill-stats-weekly" style="display:none;">&nbsp;</a></div>
+	<div class="item"><div class="label">Surf</div><a      href="#internet-stats-weekly" style="display:none;">&nbsp;</a></div>
+	<div class="item"><div class="label">Voix</div><a      href="#voice-stats-weekly" style="display:none;">&nbsp;</a></div>
+	<div class="item"><div class="label">Antivirus et sms</div><a href="#sms-stats-weekly" style="display:none;">&nbsp;</a></div>
+	<div class="item"><div class="label">Evolution Users</div><a href="#stats-users-history" style="display:none;">&nbsp;</a></div>
+      </div>
+      <div class="navigation-sep">&nbsp;</div>
+      <div class="town-navig-items">	 				
+	<h5>Statistiques par villes</h5>
+	<div>
+	  {% for town in towns %}
+	  <div><a href="?townCode={{town.code}}" target="_blank">{{ town.value }}</a></div>
+	  {% endfor %}
+	</div>
+      </div>	 				
+    </div>
+  </div>		
+  
+  <div class="dashboard-inner" style="width: 88%; position: relative; top: 0; left: 150px; " >    
+    <div class="dashboard-inner-content graphics">
+      <div class="weekly-dg-statistics"></div>
+      
+      <div class="stat-users-history graphics" style="min-height: 500px; display: None;">
+	
+      </div>												 
+    </div>
+    
+  </div>
+</div>
+{% endblock content %}
