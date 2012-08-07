@@ -10,18 +10,19 @@ from django.template import RequestContext
 from django.contrib import auth
 from django.core.servers.basehttp import FileWrapper
 from django.utils import timezone
+import pytz
 
 from models import *
 from forms import *
 from json_templates import *
 from utils import render_ext
 
-import settings
 import os.path
 import datetime
 #import requests
 import simplejson
 from django.conf import settings
+import datetime_utils
 import traceback
 from accounts.views import logout
 
@@ -156,10 +157,10 @@ def home(request):
     return HttpResponseRedirect("/analytics/home/")
 
 @login_required
-def app_about(req):
+def app_about(request):
     if not validate_user(request):
         return HttpResponseRedirect("/accounts/login/")
-    return render(req, "about.html", {})
+    return render(request, "about.html", {})
 
 @login_required()
 def account_home(request):
@@ -195,6 +196,14 @@ def get_adomain(request):
     if request.GET.get('domain'): return AccountDomain.objects.get(account=account, domain=request.GET['domain'])
     else: return AccountDomain.objects.filter(account=account)[0]
 
+    
+def request_tz(request):
+    return request.session.get("__user_timezone")
+
+def millis2datetime(millisecs, request):
+    tz = pytz.timezone(request.session.get("__user_timezone") or settings.TIME_ZONE)
+    return datetime_utils.millis2datetime(long(millisecs), tz)
+
 @login_required()
 def reporting_pageview(request, frequency):
     if not validate_user(request):
@@ -202,11 +211,11 @@ def reporting_pageview(request, frequency):
     adomain = get_adomain(request) 
     latest = request.GET.get('latest')
     if frequency == "minutely":
-        return JsonResponse(get_ten_minute_stats_history(adomain, latest))
+        return JsonResponse(get_ten_minute_stats_history(adomain, millis2datetime(latest, request)))
     if frequency == "hourly":
-        return JsonResponse(get_hourly_stats_history(adomain, latest))
+        return JsonResponse(get_hourly_stats_history(adomain, millis2datetime(latest, request)))
     if frequency == "daily":
-        return JsonResponse(get_daily_stats_history(adomain, latest))
+        return JsonResponse(get_daily_stats_history(adomain, millis2datetime(latest, request)))
     return JsonResponse("{}")
 
 
@@ -218,9 +227,9 @@ def reporting_top_cities(request, frequency):
     adomain = get_adomain(request) 
     latest = request.GET.get('latest')
     if frequency == "hourly":
-        return JsonResponse(get_city_stats_hourly(adomain, latest))
+        return JsonResponse(get_city_stats_hourly(adomain, millis2datetime(latest, request)))
     if frequency == "daily":
-        return JsonResponse(get_city_stats_daily(adomain, latest))
+        return JsonResponse(get_city_stats_daily(adomain, millis2datetime(latest, request)))
     return JsonResponse("{}")
 
 @login_required()
@@ -230,9 +239,9 @@ def reporting_top_countries(request, frequency):
     adomain = get_adomain(request) 
     latest = request.GET.get('latest')
     if frequency == "hourly":
-        return JsonResponse(get_country_stats_hourly(adomain, latest))
+        return JsonResponse(get_country_stats_hourly(adomain, millis2datetime(latest, request)))
     if frequency == "daily":
-        return JsonResponse(get_country_stats_daily(adomain, latest))
+        return JsonResponse(get_country_stats_daily(adomain, millis2datetime(latest, request)))
     return JsonResponse("{}")
 
 @login_required()
@@ -242,9 +251,9 @@ def reporting_top_entry_pages(request, frequency):
     adomain = get_adomain(request) 
     latest = request.GET.get('latest')
     if frequency == "hourly":
-        return JsonResponse(get_top_entry_pages_stats_hourly(adomain, latest))
+        return JsonResponse(get_top_entry_pages_stats_hourly(adomain, millis2datetime(latest, request)))
     if frequency == "daily":
-        return JsonResponse(get_top_entry_pages_stats_daily(adomain, latest))
+        return JsonResponse(get_top_entry_pages_stats_daily(adomain, millis2datetime(latest, request)))
     return JsonResponse("{}", mimetype="application/json")
 
 @login_required()
@@ -254,9 +263,9 @@ def reporting_top_exit_pages(request, frequency):
     adomain = get_adomain(request) 
     latest = request.GET.get('latest')
     if frequency == "hourly":
-        return JsonResponse(get_top_entry_pages_stats_hourly(adomain, latest))
+        return JsonResponse(get_top_entry_pages_stats_hourly(adomain, millis2datetime(latest, request)))
     if frequency == "daily":
-        return JsonResponse(get_top_entry_pages_stats_daily(adomain, latest))
+        return JsonResponse(get_top_entry_pages_stats_daily(adomain, millis2datetime(latest, request)))
     return JsonResponse("{}")
 
 

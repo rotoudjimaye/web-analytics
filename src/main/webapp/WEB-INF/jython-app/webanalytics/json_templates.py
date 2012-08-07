@@ -88,7 +88,7 @@ def json_handler(obj):
 #
 def get_start_end(latest, timedelta):
     end = timezone.now()
-    start = millis2datetime(long(latest)) if latest else (end - timedelta)
+    start = latest if latest else (end - timedelta)
     return start, end
 
 def get_ten_minute_stats_history(adomain, latest=None):
