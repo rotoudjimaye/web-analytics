@@ -27,6 +27,10 @@ from accounts.views import logout
 
 from djangojy import jyquartz
 
+class JsonResponse(HttpResponse):
+    def __init__(self, *args, **kwargs):
+        kwargs.update(dict(mimetype="application/json"))
+        super(JsonResponse, self).__init__(*args, **kwargs)
 
 #
 def extend_session_timeout(req): 
@@ -198,12 +202,12 @@ def reporting_pageview(request, frequency):
     adomain = get_adomain(request) 
     latest = request.GET.get('latest')
     if frequency == "minutely":
-        return HttpResponse(get_ten_minute_stats_history(adomain, latest))
+        return JsonResponse(get_ten_minute_stats_history(adomain, latest))
     if frequency == "hourly":
-        return HttpResponse(get_hourly_stats_history(adomain, latest))
+        return JsonResponse(get_hourly_stats_history(adomain, latest))
     if frequency == "daily":
-        return HttpResponse(get_daily_stats_history(adomain, latest))
-    return HttpResponse("{}")
+        return JsonResponse(get_daily_stats_history(adomain, latest))
+    return JsonResponse("{}")
 
 
 ## reporting
@@ -214,10 +218,10 @@ def reporting_top_cities(request, frequency):
     adomain = get_adomain(request) 
     latest = request.GET.get('latest')
     if frequency == "hourly":
-        return HttpResponse(get_city_stats_hourly(adomain, latest))
+        return JsonResponse(get_city_stats_hourly(adomain, latest))
     if frequency == "daily":
-        return HttpResponse(get_city_stats_daily(adomain, latest))
-    return HttpResponse("{}")
+        return JsonResponse(get_city_stats_daily(adomain, latest))
+    return JsonResponse("{}")
 
 @login_required()
 def reporting_top_countries(request, frequency):
@@ -226,10 +230,10 @@ def reporting_top_countries(request, frequency):
     adomain = get_adomain(request) 
     latest = request.GET.get('latest')
     if frequency == "hourly":
-        return HttpResponse(get_country_stats_hourly(adomain, latest))
+        return JsonResponse(get_country_stats_hourly(adomain, latest))
     if frequency == "daily":
-        return HttpResponse(get_country_stats_daily(adomain, latest))
-    return HttpResponse("{}")
+        return JsonResponse(get_country_stats_daily(adomain, latest))
+    return JsonResponse("{}")
 
 @login_required()
 def reporting_top_entry_pages(request, frequency):
@@ -238,10 +242,10 @@ def reporting_top_entry_pages(request, frequency):
     adomain = get_adomain(request) 
     latest = request.GET.get('latest')
     if frequency == "hourly":
-        return HttpResponse(get_top_entry_pages_stats_hourly(adomain, latest))
+        return JsonResponse(get_top_entry_pages_stats_hourly(adomain, latest))
     if frequency == "daily":
-        return HttpResponse(get_top_entry_pages_stats_daily(adomain, latest))
-    return HttpResponse("{}")
+        return JsonResponse(get_top_entry_pages_stats_daily(adomain, latest))
+    return JsonResponse("{}", mimetype="application/json")
 
 @login_required()
 def reporting_top_exit_pages(request, frequency):
@@ -250,10 +254,10 @@ def reporting_top_exit_pages(request, frequency):
     adomain = get_adomain(request) 
     latest = request.GET.get('latest')
     if frequency == "hourly":
-        return HttpResponse(get_top_entry_pages_stats_hourly(adomain, latest))
+        return JsonResponse(get_top_entry_pages_stats_hourly(adomain, latest))
     if frequency == "daily":
-        return HttpResponse(get_top_entry_pages_stats_daily(adomain, latest))
-    return HttpResponse("{}")
+        return JsonResponse(get_top_entry_pages_stats_daily(adomain, latest))
+    return JsonResponse("{}")
 
 
 import csv
