@@ -200,9 +200,11 @@ def get_adomain(request):
 def request_tz(request):
     return request.session.get("__user_timezone")
 
-def millis2datetime(millisecs, request):
-    tz = pytz.timezone(request.session.get("__user_timezone") or settings.TIME_ZONE)
-    return datetime_utils.millis2datetime(long(millisecs), tz)
+def millis2datetime(millisecs_str, request):
+    if millisecs_str:
+        tz = pytz.timezone(request.session.get("__user_timezone") or settings.TIME_ZONE)
+        return datetime_utils.millis2datetime(long(millisecs_str), tz)
+    return None
 
 @login_required()
 def reporting_pageview(request, frequency):
