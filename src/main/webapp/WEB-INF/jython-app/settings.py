@@ -16,7 +16,8 @@ DATABASES = {
     'default': {
         #'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         #'ENGINE': ('doj.backends.zxjdbc.sqlite3' if os.environ.get('JYTHONPATH') else 'django.db.backends.sqlite3'),
-        'ENGINE': ('doj.backends.zxjdbc.mysql' if os.environ.get('IS_JYTHON') else 'django.db.backends.mysql'),
+        'ENGINE': ('djangojy.db.backends.mysql' if os.environ.get('IS_JYTHON') else 'django.db.backends.mysql'),
+        #'ENGINE': ('doj.backends.zxjdbc.mysql' if os.environ.get('IS_JYTHON') else 'django.db.backends.mysql'),
         'NAME': 'wanalytics', # Or path to database file if using sqlite3.
         'USER': 'wanalytics', # Not used with sqlite3.
         'PASSWORD': 'p4zzw0rd', # Not used with sqlite3.
